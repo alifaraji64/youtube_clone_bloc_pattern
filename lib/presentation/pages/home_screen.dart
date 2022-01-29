@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_clone/presentation/cubits/user_info_cubit.dart';
 import 'package:youtube_clone/presentation/widgets/profile.dart';
 
@@ -26,6 +25,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.upload_file),
+        onPressed: () {
+          Navigator.of(context).pushNamed('/uploadVideo');
+        },
+      ),
       appBar: AppBar(),
       body: SafeArea(
           child: SingleChildScrollView(

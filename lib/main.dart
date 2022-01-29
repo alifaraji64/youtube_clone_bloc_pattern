@@ -4,11 +4,18 @@ import 'package:youtube_clone/presentation/cubits/avatar_storage_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/avatar_to_mysql_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/profile_avatar_picker_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/register_cubit.dart';
+import 'package:youtube_clone/presentation/cubits/thumbnail_picker_cubit.dart';
+import 'package:youtube_clone/presentation/cubits/thumbnail_storage_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/user_info_cubit.dart';
+import 'package:youtube_clone/presentation/cubits/video_compress_cubit.dart';
+import 'package:youtube_clone/presentation/cubits/video_picker_cubit.dart';
+import 'package:youtube_clone/presentation/cubits/video_storage_cubit.dart';
 import 'package:youtube_clone/presentation/pages/home_screen.dart';
 import 'package:youtube_clone/presentation/pages/register_screen.dart';
 import 'package:youtube_clone/presentation/pages/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:youtube_clone/presentation/pages/upload_video.dart';
+import 'package:youtube_clone/presentation/pages/video_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +34,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ProfileAvatarPickerCubit()),
         BlocProvider(create: (context) => AvatarStorageCubit()),
         BlocProvider(create: (context) => AvatarToMysqlCubit()),
+        BlocProvider(create: (context) => ThumbnailPickerCubit()),
+        BlocProvider(create: (context) => VideoPickerCubit()),
+        BlocProvider(create: (context) => VideoCompressCubit()),
+        BlocProvider(create: (context) => VideoStorageCubit()),
+        BlocProvider(create: (context) => ThumbnailStorageCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -50,7 +62,9 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => SplashScreen(),
           '/register': (context) => RegisterScreen(),
-          '/home': (context) => HomeScreen()
+          '/home': (context) => HomeScreen(),
+          '/video': (context) => VideoScreen(),
+          '/uploadVideo': (context) => UploadVideo()
         },
       ),
     );

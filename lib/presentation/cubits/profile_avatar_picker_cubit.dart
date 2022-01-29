@@ -10,7 +10,7 @@ class ProfileAvatarPickerCubit extends Cubit<ProfileAvatarPickerState> {
   String selectedImage;
   Future pickProfileAvatar() async {
     try {
-      selectedImage = await _userInfo.pickProfileAvatar();
+      selectedImage = await _userInfo.pickImage();
       emit(ProfileAvatarPickerDone(selectedImage: selectedImage));
     } on CustomException catch (e) {
       emit(ProfileAvatarPickerError(msg: e.msg));

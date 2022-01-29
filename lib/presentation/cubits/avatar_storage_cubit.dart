@@ -11,7 +11,8 @@ class AvatarStorageCubit extends Cubit<AvatarStorageState> {
   uploadToFirebase(String selectedImage, String uid) async {
     emit(AvatarStorageWaiting());
     try {
-      url = await _firebaseOperations.uploadToStorage(selectedImage, uid);
+      url = await _firebaseOperations.uploadToStorage(
+          '/avatars/', selectedImage, uid);
       emit(AvatarStorageDone(url: url));
     } catch (e) {
       print('error occured');

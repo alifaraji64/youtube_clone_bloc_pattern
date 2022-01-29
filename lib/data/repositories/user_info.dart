@@ -20,7 +20,7 @@ class UserInfo {
     return User.fromJson(jsonDecode(response.body));
   }
 
-  Future pickProfileAvatar() async {
+  Future pickImage() async {
     FilePickerResult result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['jpg', 'png'],
@@ -28,6 +28,16 @@ class UserInfo {
     if (result == null) return CustomException("you didn't select any image");
     print(result);
     //returning the path of the selected file, so we can wrap it with File in cubit
+    return result.files.single.path;
+  }
+
+  Future pickVideo() async {
+    FilePickerResult result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['mp4'],
+    );
+    if (result == null) return CustomException("you didn't select any video");
+    print(result);
     return result.files.single.path;
   }
 

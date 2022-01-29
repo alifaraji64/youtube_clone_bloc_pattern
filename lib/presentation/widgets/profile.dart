@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_clone/presentation/cubits/avatar_storage_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/avatar_to_mysql_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/profile_avatar_picker_cubit.dart';
@@ -16,8 +17,16 @@ class Profile extends StatelessWidget {
         BlocListener<ProfileAvatarPickerCubit, ProfileAvatarPickerState>(
           listener: (context, state) {
             if (state is ProfileAvatarPickerError) {
-              return ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(state.msg)));
+              return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                  state.msg,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                backgroundColor: Colors.redAccent[400],
+              ));
             }
             if (state is ProfileAvatarPickerDone) {
               BlocProvider.of<AvatarStorageCubit>(context, listen: false)
@@ -50,66 +59,74 @@ class Profile extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                state.user.profileImage != null
-                    ? CircleAvatar(
-                        backgroundImage: NetworkImage(state.user.profileImage),
-                        radius: 40,
-                      )
-                    : BlocBuilder<AvatarStorageCubit, AvatarStorageState>(
-                        builder: (context, state) {
-                          if (state is AvatarStorageInitial) {
-                            return GestureDetector(
-                              onTap: () async {
-                                await BlocProvider.of<ProfileAvatarPickerCubit>(
-                                        context,
-                                        listen: false)
-                                    .pickProfileAvatar();
-                              },
-                              child: ClipRRect(
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(100)),
-                                child: Container(
-                                  width: 80,
-                                  height: 80,
-                                  child: Icon(
-                                    Icons.person,
-                                    size: 50,
-                                  ),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.redAccent[400]),
-                                ),
+                if (state.user.profileImage != null)
+                  GestureDetector(
+                    onTap: () async {
+                      await BlocProvider.of<ProfileAvatarPickerCubit>(context,
+                              listen: false)
+                          .pickProfileAvatar();
+                    },
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(state.user.profileImage),
+                      radius: 40,
+                    ),
+                  )
+                else
+                  BlocBuilder<AvatarStorageCubit, AvatarStorageState>(
+                    builder: (context, state) {
+                      if (state is AvatarStorageInitial) {
+                        return GestureDetector(
+                          onTap: () async {
+                            await BlocProvider.of<ProfileAvatarPickerCubit>(
+                                    context,
+                                    listen: false)
+                                .pickProfileAvatar();
+                          },
+                          child: ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(100)),
+                            child: Container(
+                              width: 80,
+                              height: 80,
+                              child: Icon(
+                                Icons.person,
+                                size: 50,
                               ),
-                            );
-                          }
-                          if (state is AvatarStorageWaiting) {
-                            return ClipRRect(
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(100)),
-                                child: Container(
-                                  width: 80,
-                                  height: 80,
-                                  child: CircularProgressIndicator(),
-                                ));
-                          }
-                          if (state is AvatarStorageDone) {
-                            return GestureDetector(
-                              onTap: () async {
-                                await BlocProvider.of<ProfileAvatarPickerCubit>(
-                                        context,
-                                        listen: false)
-                                    .pickProfileAvatar();
-                              },
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage(state.url),
-                                radius: 40,
-                              ),
-                            );
-                          }
-                          //for error that we are handling in the listener
-                          return Container();
-                        },
-                      ),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.redAccent[400]),
+                            ),
+                          ),
+                        );
+                      }
+                      if (state is AvatarStorageWaiting) {
+                        return ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(100)),
+                            child: Container(
+                              width: 80,
+                              height: 80,
+                              child: CircularProgressIndicator(),
+                            ));
+                      }
+                      if (state is AvatarStorageDone) {
+                        return GestureDetector(
+                          onTap: () async {
+                            await BlocProvider.of<ProfileAvatarPickerCubit>(
+                                    context,
+                                    listen: false)
+                                .pickProfileAvatar();
+                          },
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(state.url),
+                            radius: 40,
+                          ),
+                        );
+                      }
+                      //for error that we are handling in the listener
+                      return Container();
+                    },
+                  ),
                 Column(
                   children: [
                     Text(
@@ -157,8 +174,13 @@ class Profile extends StatelessWidget {
                 shrinkWrap: true,
                 children: List<Widget>.generate(
                     10,
-                    (index) => Card(
-                          color: Colors.yellow,
+                    (index) => GestureDetector(
+                          onTap: () async {
+                            Navigator.of(context).pushNamed('/video');
+                          },
+                          child: Card(
+                            color: Colors.yellow,
+                          ),
                         )))
           ],
         ),

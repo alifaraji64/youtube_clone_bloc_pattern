@@ -15,7 +15,6 @@ class Authentication {
           {"username": username, "email": email, "password": password}),
     );
     client.close();
-    print(response.statusCode);
     if (response.statusCode != 200) {
       return throw NetworkException(jsonDecode(response.body)['error']);
     }

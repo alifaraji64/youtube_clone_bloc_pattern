@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_clone/data/models/User.dart';
 import 'package:youtube_clone/data/repositories/user_info.dart';
 
@@ -11,7 +12,9 @@ class UserInfoCubit extends Cubit<UserInfoState> {
   User user;
   Future fetchUserInfo() async {
     try {
-      User user = await _userInfo.fetchUserInfo();
+      user = await _userInfo.fetchUserInfo();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('uid', user.uid);
       print('g');
       emit(UserInfoLoaded(user: user));
     } on CustomException catch (e) {
