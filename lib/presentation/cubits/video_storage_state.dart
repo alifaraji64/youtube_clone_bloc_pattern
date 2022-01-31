@@ -5,6 +5,8 @@ abstract class VideoStorageState {
   const VideoStorageState();
 }
 
+class VideoStorageInitial extends VideoStorageState {}
+
 class VideoStorageWaiting extends VideoStorageState {}
 
 class VideoStorageDone extends VideoStorageState {

@@ -25,6 +25,8 @@ class VideoCompressCubit extends Cubit<VideoCompressState> {
         deleteOrigin: false, // It's false by default
       );
       compressedVideo = mediaInfo.file;
+      print('file size');
+      print(mediaInfo.filesize);
       emit(VideoCompressDone());
     } catch (e) {
       print('unknown error occured while compressing the video');

@@ -8,6 +8,8 @@ import 'package:youtube_clone/presentation/cubits/thumbnail_storage_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/video_compress_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/video_picker_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/video_storage_cubit.dart';
+import 'package:youtube_clone/presentation/cubits/video_to_mysql_cubit.dart';
+import 'package:youtube_clone/presentation/widgets/uploadButton.dart';
 
 class UploadVideo extends StatefulWidget {
   const UploadVideo({Key key}) : super(key: key);
@@ -68,6 +70,63 @@ class _UploadVideoState extends State<UploadVideo> {
                 ),
               ),
               backgroundColor: Colors.redAccent[400],
+            ));
+          }
+        }),
+        BlocListener<ThumbnailStorageCubit, ThumbnailStorageState>(
+            listener: (context, state) {
+          if (state is ThumbnailStorageError) {
+            return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                state.msg,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              backgroundColor: Colors.redAccent[400],
+            ));
+          }
+        }),
+        BlocListener<VideoStorageCubit, VideoStorageState>(
+            listener: (context, state) {
+          if (state is VideoStorageError) {
+            return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                state.msg,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              backgroundColor: Colors.redAccent[400],
+            ));
+          }
+        }),
+        BlocListener<VideoToMysqlCubit, VideoToMysqlState>(
+            listener: (context, state) {
+          if (state is VideoToMysqlError) {
+            return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                state.msg,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              backgroundColor: Colors.redAccent[400],
+            ));
+          }
+          if (state is VideoToMysqlDone) {
+            return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                'video uplaoded successfully',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              backgroundColor: Colors.green[600],
             ));
           }
         })
@@ -192,51 +251,7 @@ class _UploadVideoState extends State<UploadVideo> {
                   ),
                   SizedBox(height: 40),
                   //show upload button if both image and video is selected
-                  BlocBuilder<ThumbnailPickerCubit, ThumbnailPickerState>(
-                      builder: (context, state_1) {
-                    return BlocBuilder<VideoCompressCubit, VideoCompressState>(
-                        builder: (context, state_2) {
-                      if (state_1 is ThumbnailPickerDone &&
-                          state_2 is VideoCompressDone) {
-                        return MaterialButton(
-                          onPressed: () async {
-                            File compressedVideo =
-                                BlocProvider.of<VideoCompressCubit>(context,
-                                        listen: false)
-                                    .compressedVideo;
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            // await BlocProvider.of<VideoStorageCubit>(context,
-                            //         listen: false)
-                            //     .uploadToFirebase(
-                            //   compressedVideo,
-                            //   prefs.get('uid'),
-                            // );
-                            await context
-                                .read<ThumbnailStorageCubit>()
-                                .uploadThumbnailToStorage(
-                                    context
-                                        .read<ThumbnailPickerCubit>()
-                                        .selectedThumbnail,
-                                    prefs.get('uid'));
-                          },
-                          child: Text(
-                            'upload video and image',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          color: Colors.redAccent[400],
-                        );
-                      }
-                      return MaterialButton(
-                        onPressed: () {},
-                        child: Text(
-                          'upload video and image',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        color: Colors.redAccent[100],
-                      );
-                    });
-                  })
+                  UploadButton()
                 ],
               ),
             ),

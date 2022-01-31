@@ -5,6 +5,8 @@ abstract class ThumbnailStorageState {
   const ThumbnailStorageState();
 }
 
+class ThumbnailStorageInitial extends ThumbnailStorageState {}
+
 class ThumbnailStorageWaiting extends ThumbnailStorageState {}
 
 class ThumbnailStorageDone extends ThumbnailStorageState {

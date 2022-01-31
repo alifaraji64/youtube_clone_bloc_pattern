@@ -10,6 +10,7 @@ import 'package:youtube_clone/presentation/cubits/user_info_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/video_compress_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/video_picker_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/video_storage_cubit.dart';
+import 'package:youtube_clone/presentation/cubits/video_to_mysql_cubit.dart';
 import 'package:youtube_clone/presentation/pages/home_screen.dart';
 import 'package:youtube_clone/presentation/pages/register_screen.dart';
 import 'package:youtube_clone/presentation/pages/splash_screen.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => VideoCompressCubit()),
         BlocProvider(create: (context) => VideoStorageCubit()),
         BlocProvider(create: (context) => ThumbnailStorageCubit()),
+        BlocProvider(create: (context) => VideoToMysqlCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
