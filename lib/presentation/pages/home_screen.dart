@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_clone/presentation/cubits/user_info_cubit.dart';
 import 'package:youtube_clone/presentation/widgets/profile.dart';
 
@@ -13,9 +14,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
+    super.initState();
     print('init state');
     fetchUserInfo();
-    super.initState();
   }
 
   Future fetchUserInfo() async {
@@ -31,7 +32,18 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.of(context).pushNamed('/uploadVideo');
         },
       ),
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              print(prefs.get('uid'));
+              prefs.remove('jwt');
+              prefs.remove('uid');
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/login', (route) => false);
+            }),
+      ),
       body: SafeArea(
           child: SingleChildScrollView(
         child: BlocConsumer<UserInfoCubit, UserInfoState>(

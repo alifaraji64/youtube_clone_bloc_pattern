@@ -52,6 +52,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       obscureText: true,
                     ),
                     SizedBox(height: 40),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('you already have an account?'),
+                        GestureDetector(
+                          child: Text(
+                            '  login',
+                            style: TextStyle(
+                              color: Colors.redAccent[400],
+                              fontSize: 16,
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.pushNamed(context, '/login');
+                          },
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     //button
                     BlocBuilder<RegisterCubit, RegisterState>(
                         builder: (context, state) {
@@ -83,6 +104,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         );
                       }
                     }),
+
                     BlocListener<RegisterCubit, RegisterState>(
                       listener: (context, state) {
                         if (state is Error) {

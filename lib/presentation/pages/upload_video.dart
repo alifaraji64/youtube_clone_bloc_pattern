@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_clone/presentation/cubits/thumbnail_picker_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/thumbnail_storage_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/video_compress_cubit.dart';

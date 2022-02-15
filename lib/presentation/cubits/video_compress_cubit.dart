@@ -10,12 +10,10 @@ part 'video_compress_state.dart';
 class VideoCompressCubit extends Cubit<VideoCompressState> {
   VideoCompressCubit() : super(VideoCompressInitial());
   File compressedVideo;
-  double progress;
   Subscription _subscription;
   compressVideo<File>(String videoPath) async {
     _subscription?.unsubscribe();
     _subscription = VideoCompress.compressProgress$.subscribe((progress) {
-      debugPrint('gjhgjhgjhguyguyg: $progress');
       emit(VideoCompressInProgress(progress: progress));
     });
     try {

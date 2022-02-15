@@ -12,6 +12,8 @@ class AvatarToMysqlCubit extends Cubit<AvatarToMysqlState> {
       //don't need to show any success msg
       await _userInfo.addProfileImage(url);
     } on CustomException catch (e) {
+      print('fsd');
+      print(e);
       emit(AvatarToMysqError(msg: e.msg));
     } catch (e) {
       emit(AvatarToMysqError(

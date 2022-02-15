@@ -22,7 +22,18 @@ class Authentication {
     //print(jsonDecode(response.body)['error']);
   }
 
-  void login() async {}
+  Future<String> login(String username, String password) async {
+    final client = http.Client();
+    Uri url = Uri.parse(baseUrl + '/auth/login');
+    http.Response response = await client.post(url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({"username": username, "password": password}));
+    client.close();
+    if (response.statusCode != 200) {
+      return throw NetworkException(jsonDecode(response.body)['error']);
+    }
+    return jsonDecode(response.body)['token'];
+  }
 }
 
 class NetworkException implements Exception {

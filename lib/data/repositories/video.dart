@@ -22,6 +22,28 @@ class Video {
       return throw CustomException(msg: jsonDecode(response.body)['error']);
     }
   }
+
+  Future<List> getVideos() async {
+    final client = http.Client();
+    Uri url = Uri.parse(baseUrl + '/getVideos');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print('uid');
+    print(prefs.get('uid'));
+    http.Response response = await client.get(
+      url,
+      headers: {
+        'content-type': 'application/json',
+        'uid': prefs.get('uid'),
+        'authorization': prefs.get('jwt')
+      },
+    );
+    client.close();
+    if (response.statusCode != 200) {
+      return throw CustomException(msg: jsonDecode(response.body)['error']);
+    }
+    return jsonDecode(response.body)['videos'];
+    //print(response.body);
+  }
 }
 
 class CustomException implements Exception {

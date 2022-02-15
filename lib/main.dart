@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube_clone/presentation/cubits/avatar_storage_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/avatar_to_mysql_cubit.dart';
+import 'package:youtube_clone/presentation/cubits/get_videos_cubit.dart';
+import 'package:youtube_clone/presentation/cubits/login_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/profile_avatar_picker_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/register_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/thumbnail_picker_cubit.dart';
@@ -12,6 +14,7 @@ import 'package:youtube_clone/presentation/cubits/video_picker_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/video_storage_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/video_to_mysql_cubit.dart';
 import 'package:youtube_clone/presentation/pages/home_screen.dart';
+import 'package:youtube_clone/presentation/pages/login_screen.dart';
 import 'package:youtube_clone/presentation/pages/register_screen.dart';
 import 'package:youtube_clone/presentation/pages/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -41,6 +44,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => VideoStorageCubit()),
         BlocProvider(create: (context) => ThumbnailStorageCubit()),
         BlocProvider(create: (context) => VideoToMysqlCubit()),
+        BlocProvider(create: (context) => GetVideosCubit()),
+        BlocProvider(create: (context) => LoginCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -66,7 +71,8 @@ class MyApp extends StatelessWidget {
           '/register': (context) => RegisterScreen(),
           '/home': (context) => HomeScreen(),
           '/video': (context) => VideoScreen(),
-          '/uploadVideo': (context) => UploadVideo()
+          '/uploadVideo': (context) => UploadVideo(),
+          '/login': (context) => LoginScreen(),
         },
       ),
     );

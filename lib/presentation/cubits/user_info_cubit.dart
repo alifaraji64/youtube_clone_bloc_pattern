@@ -11,11 +11,13 @@ class UserInfoCubit extends Cubit<UserInfoState> {
   UserInfo _userInfo = UserInfo();
   User user;
   Future fetchUserInfo() async {
+    print('fetchin user info');
     try {
       user = await _userInfo.fetchUserInfo();
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('uid', user.uid);
-      print('g');
+      print('uid when fetched');
+      print(prefs.get('uid'));
       emit(UserInfoLoaded(user: user));
     } on CustomException catch (e) {
       emit(Error(msg: e.msg));
