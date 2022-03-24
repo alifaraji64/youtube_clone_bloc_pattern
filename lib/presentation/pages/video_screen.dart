@@ -20,11 +20,12 @@ class _VideoScreenState extends State<VideoScreen> {
   @override
   Widget build(BuildContext context) {
     final VideoScreenArguments args = ModalRoute.of(context).settings.arguments;
+    print(args.videoUrl);
     _chewieController = ChewieController(
       videoPlayerController: VideoPlayerController.network(
         args.videoUrl,
       ),
-      autoInitialize: true,
+      autoInitialize: false,
       errorBuilder: (context, errorMessage) {
         return Center(
           child: Text(

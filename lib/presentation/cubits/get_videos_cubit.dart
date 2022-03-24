@@ -19,4 +19,8 @@ class GetVideosCubit extends Cubit<GetVideosState> {
       emit(GetVideosError(msg: e.toString()));
     }
   }
+
+  videoStateOnChange(List _videos) {
+    emit(GetVideosDone(videos: _videos));
+  }
 }

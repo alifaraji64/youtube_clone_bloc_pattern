@@ -4,17 +4,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Video {
   static const baseUrl = 'http://10.0.2.2:5000';
-
-  addVideo(String videoUrl, String thumbnailUrl, String jwt) async {
-    print('add video');
+  addVideo(String _videoUrl, String _thumbnailUrl, String _jwt) async {
     final client = http.Client();
+    print('add video');
     Uri url = Uri.parse(baseUrl + '/addVideo');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     http.Response response = await client.post(url,
-        headers: {'content-type': 'application/json', 'authorization': jwt},
+        headers: {
+          'content-type': 'application/json',
+          'authorization': _jwt,
+        },
         body: jsonEncode({
-          'videoUrl': videoUrl,
-          'thumbnailUrl': thumbnailUrl,
+          'videoUrl': _videoUrl,
+          'thumbnailUrl': _thumbnailUrl,
           'userId': prefs.get('uid')
         }));
     client.close();
@@ -43,6 +45,23 @@ class Video {
     }
     return jsonDecode(response.body)['videos'];
     //print(response.body);
+  }
+
+  deleteVideo(String _videoId) async {
+    final client = http.Client();
+    Uri url = Uri.parse(baseUrl + '/deleteVideo');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    http.Response response = await client.delete(url,
+        headers: {
+          'content-type': 'application/json',
+          'authorization': prefs.get('jwt')
+        },
+        body: jsonEncode({'videoId': _videoId}));
+    print('looooo');
+    client.close();
+    if (response.statusCode != 200) {
+      return throw CustomException(msg: jsonDecode(response.body)['error']);
+    }
   }
 }
 

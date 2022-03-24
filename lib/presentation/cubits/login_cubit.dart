@@ -9,7 +9,6 @@ class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
   Authentication _authentication = Authentication();
   Future login(String username, String password) async {
-    print(username + password);
     emit(InProcess());
     try {
       String token = await _authentication.login(username, password);

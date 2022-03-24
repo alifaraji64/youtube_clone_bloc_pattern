@@ -65,8 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
             return CircularProgressIndicator();
           }
           if (state is UserInfoLoaded) {
+            //print(state.user);
             return Profile(
-              state: state,
+              user: state.user,
             );
           }
           //if state is error

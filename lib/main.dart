@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube_clone/presentation/cubits/avatar_storage_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/avatar_to_mysql_cubit.dart';
+import 'package:youtube_clone/presentation/cubits/delete_video_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/get_videos_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/login_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/profile_avatar_picker_cubit.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => VideoToMysqlCubit()),
         BlocProvider(create: (context) => GetVideosCubit()),
         BlocProvider(create: (context) => LoginCubit()),
+        BlocProvider(create: (context) => DeleteVideoCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

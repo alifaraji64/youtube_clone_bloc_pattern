@@ -30,6 +30,7 @@ class Authentication {
         body: jsonEncode({"username": username, "password": password}));
     client.close();
     if (response.statusCode != 200) {
+      print(jsonDecode(response.body)['error']);
       return throw NetworkException(jsonDecode(response.body)['error']);
     }
     return jsonDecode(response.body)['token'];

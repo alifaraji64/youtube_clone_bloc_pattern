@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube_clone/data/models/User.dart';
 import 'package:youtube_clone/presentation/cubits/avatar_storage_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/avatar_to_mysql_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/get_videos_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/profile_avatar_picker_cubit.dart';
 import 'package:youtube_clone/presentation/cubits/user_info_cubit.dart';
 import 'package:youtube_clone/presentation/pages/video_screen.dart';
+import 'package:youtube_clone/presentation/widgets/video_grid.dart';
 
 class Profile extends StatefulWidget {
-  final UserInfoLoaded state;
-  const Profile({this.state});
+  final User user;
+  const Profile({this.user});
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -47,8 +49,7 @@ class _ProfileState extends State<Profile> {
             }
             if (state is ProfileAvatarPickerDone) {
               BlocProvider.of<AvatarStorageCubit>(context, listen: false)
-                  .uploadToFirebase(
-                      state.selectedImage, this.widget.state.user.uid);
+                  .uploadToFirebase(state.selectedImage, this.widget.user.uid);
             }
           },
         ),
@@ -97,7 +98,7 @@ class _ProfileState extends State<Profile> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  if (widget.state.user.profileImage != null)
+                  if (widget.user.profileImage != null)
                     GestureDetector(
                       onTap: () async {
                         await BlocProvider.of<ProfileAvatarPickerCubit>(context,
@@ -105,8 +106,7 @@ class _ProfileState extends State<Profile> {
                             .pickProfileAvatar();
                       },
                       child: CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(widget.state.user.profileImage),
+                        backgroundImage: NetworkImage(widget.user.profileImage),
                         radius: 40,
                       ),
                     )
@@ -175,7 +175,7 @@ class _ProfileState extends State<Profile> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(widget.state.user.username)
+                      Text(widget.user.username)
                     ],
                   ),
                   Column(
@@ -187,7 +187,7 @@ class _ProfileState extends State<Profile> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(widget.state.user.joinDate)
+                      Text(widget.user.joinDate)
                     ],
                   ),
                 ],
@@ -210,63 +210,6 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class VideoGrid extends StatelessWidget {
-  const VideoGrid({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<GetVideosCubit, GetVideosState>(
-      builder: (context, state) {
-        if (state is GetVideosInitial || state is GetVideosError) {
-          return GridView.count(
-              primary: false,
-              crossAxisCount: 2,
-              crossAxisSpacing: 20,
-              padding: const EdgeInsets.all(5),
-              shrinkWrap: true,
-              children: List<Widget>.generate(
-                  6,
-                  (index) => GestureDetector(
-                        onTap: () async {
-                          Navigator.of(context).pushNamed('/video');
-                        },
-                        child: Card(
-                          color: Colors.yellow,
-                        ),
-                      )));
-        }
-        if (state is GetVideosDone) {
-          return GridView.count(
-              primary: false,
-              crossAxisCount: 2,
-              crossAxisSpacing: 20,
-              padding: const EdgeInsets.all(5),
-              shrinkWrap: true,
-              children: List<Widget>.generate(
-                  state.videos.length,
-                  (index) => GestureDetector(
-                        onTap: () async {
-                          Navigator.of(context).pushNamed('/video',
-                              arguments: VideoScreenArguments(
-                                  state.videos[index]['videoUrl']));
-                        },
-                        child: Card(
-                          color: Colors.yellow,
-                          child: Image.network(
-                            state.videos[index]['thumbnailUrl'],
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      )));
-        }
-        return Container();
-      },
     );
   }
 }
