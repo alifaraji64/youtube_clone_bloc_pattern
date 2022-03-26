@@ -48,7 +48,7 @@ class UploadButton extends StatelessWidget {
             String thumbnailUrl = context.read<ThumbnailStorageCubit>().url;
             await context
                 .read<VideoToMysqlCubit>()
-                .addVideo(videoUrl, thumbnailUrl, prefs.get('jwt'));
+                .addVideo(context, videoUrl, thumbnailUrl, prefs.get('jwt'));
             context.read<VideoCompressCubit>().clearVideo();
             context.read<ThumbnailPickerCubit>().clearThumbnail();
           },

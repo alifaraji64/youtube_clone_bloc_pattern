@@ -21,6 +21,7 @@ class GetVideosCubit extends Cubit<GetVideosState> {
   }
 
   videoStateOnChange(List _videos) {
+    //type can be either add or delete
     emit(GetVideosDone(videos: _videos));
   }
 }

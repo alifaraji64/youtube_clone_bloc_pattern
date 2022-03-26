@@ -23,6 +23,7 @@ class Video {
     if (response.statusCode != 200) {
       return throw CustomException(msg: jsonDecode(response.body)['error']);
     }
+    return jsonDecode(response.body);
   }
 
   Future<List> getVideos() async {

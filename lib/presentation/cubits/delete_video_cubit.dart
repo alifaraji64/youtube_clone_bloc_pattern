@@ -11,14 +11,12 @@ class DeleteVideoCubit extends Cubit<DeleteVideoState> {
   Video _video = Video();
   deleteVideo(BuildContext context, int _videoId, List _videos) async {
     try {
+      //delete the video from db
       await _video.deleteVideo(_videoId.toString());
+      //delete it localy from the _videos array
       dynamic deletedVideo =
           _videos.firstWhere((element) => element['videoId'] == _videoId);
-      print(deletedVideo);
-      print(_videos.length);
       _videos.remove(deletedVideo);
-      print(_videos.length);
-      print('video deleted');
       BlocProvider.of<GetVideosCubit>(context, listen: false)
           .videoStateOnChange(_videos);
     } catch (e) {
