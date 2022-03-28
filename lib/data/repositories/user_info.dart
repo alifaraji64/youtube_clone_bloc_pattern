@@ -6,7 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 
 class UserInfo {
-  static const baseUrl = 'http://10.0.2.2:5000';
+  static const baseUrl = 'https://353b-173-255-193-98.ngrok.io';
   Future<User> fetchUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String jwt = prefs.getString('jwt');

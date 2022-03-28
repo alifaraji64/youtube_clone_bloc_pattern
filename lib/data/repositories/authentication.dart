@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class Authentication {
-  static const baseUrl = 'http://10.0.2.2:5000';
+  static const baseUrl = 'https://353b-173-255-193-98.ngrok.io';
   Future<String> register(
       String username, String email, String password) async {
     final client = http.Client();

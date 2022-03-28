@@ -49,6 +49,11 @@ class _HomeScreenState extends State<HomeScreen> {
         child: BlocConsumer<UserInfoCubit, UserInfoState>(
             listener: (context, state) {
           if (state is Error) {
+            //when the app starts this screen is the first one if a jwt is saved and right in the first page user goes to
+            //login page if jwt is expired
+            if (state.msg == 'token is invalid')
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/login', (route) => false);
             return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(
                 state.msg,

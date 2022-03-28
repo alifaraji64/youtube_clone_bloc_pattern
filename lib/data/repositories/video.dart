@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Video {
-  static const baseUrl = 'http://10.0.2.2:5000';
+  static const baseUrl = 'https://353b-173-255-193-98.ngrok.io';
   addVideo(String _videoUrl, String _thumbnailUrl, String _jwt) async {
     final client = http.Client();
     print('add video');

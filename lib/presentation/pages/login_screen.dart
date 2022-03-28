@@ -102,6 +102,25 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         }
                       }),
+                      SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("you don't have an account yet?"),
+                          GestureDetector(
+                            child: Text(
+                              '  register',
+                              style: TextStyle(
+                                color: Colors.redAccent[400],
+                                fontSize: 16,
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.pushNamed(context, '/register');
+                            },
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 ),
